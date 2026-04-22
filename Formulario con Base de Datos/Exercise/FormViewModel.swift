@@ -15,8 +15,6 @@ class FormViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var solicitudes: [Solicitud] = []
     
-    // MARK: - Validaciones
-    
     var isValid: Bool {
         titulo.count >= 5 && titulo.count <= 60 &&
         descripcion.count >= 20 && descripcion.count <= 500 &&
@@ -29,11 +27,8 @@ class FormViewModel: ObservableObject {
         return email.range(of: regex, options: .regularExpression) != nil
     }
     
-    // MARK: - Insertar
-    
     func enviar() async {
         guard isValid else { return }
-        
         isLoading = true
         errorMessage = nil
         
@@ -57,13 +52,11 @@ class FormViewModel: ObservableObject {
             resetForm()
             
         } catch {
-            errorMessage = "Error al enviar. Revisa red o permisos."
+            errorMessage = "Error al enviar. Revisa la conexión o permisos RLS."
+            print("Error: \(error)")
         }
-        
         isLoading = false
     }
-    
-    // MARK: - Listado
     
     func cargarSolicitudes() async {
         do {
@@ -78,6 +71,7 @@ class FormViewModel: ObservableObject {
             
         } catch {
             errorMessage = "Error al cargar solicitudes."
+            print("Error: \(error)")
         }
     }
     
@@ -88,4 +82,4 @@ class FormViewModel: ObservableObject {
         prioridad = 1
         email = ""
     }
-}
+}   
