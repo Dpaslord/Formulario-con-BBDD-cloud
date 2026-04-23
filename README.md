@@ -6,8 +6,6 @@ Ejercicio técnico basado en:
 
 > Formulario con validación que inserta en Supabase y muestra el listado de registros ordenados por fecha descendente.
 
----
-
 ## 🚀 Funcionalidades
 
 ### ✅ Formulario con validación
@@ -80,7 +78,7 @@ Buenas prácticas aplicadas:
 
 ### 1️⃣ Clonar el repositorio
 
-git clone https://github.com/tuusuario/tu-repo.git
+git clone https://github.com/Dpaslord/Formulario-con-BBDD-cloud.git
 
 ### 2️⃣ Configurar variables de entorno en Xcode
 
