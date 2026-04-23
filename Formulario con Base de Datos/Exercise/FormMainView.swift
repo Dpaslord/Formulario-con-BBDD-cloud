@@ -1,7 +1,12 @@
 import SwiftUI
 
+/// Vista principal que contiene:
+/// - Formulario con validación visual
+/// - Mensajes de error y éxito
+/// - Listado de solicitudes almacenadas
 struct FormMainView: View {
     
+    /// ViewModel que gestiona la lógica de negocio y estado
     @StateObject private var vm = FormViewModel()
     
     var body: some View {
@@ -9,9 +14,11 @@ struct FormMainView: View {
             Form {
                 
                 // MARK: - Formulario
+                
                 Section(header: Text("Formulario")) {
                     
-                    // TÍTULO
+                    // MARK: Título
+                    
                     VStack(alignment: .leading, spacing: 4) {
                         TextField("Título", text: $vm.titulo)
                             .overlay {
@@ -28,7 +35,8 @@ struct FormMainView: View {
                         }
                     }
                     
-                    // DESCRIPCIÓN
+                    // MARK: Descripción
+                    
                     VStack(alignment: .leading, spacing: 4) {
                         TextField("Descripción", text: $vm.descripcion)
                             .overlay {
@@ -45,13 +53,18 @@ struct FormMainView: View {
                         }
                     }
                     
-                    // CATEGORÍA
+                    // MARK: Categoría
+                    
                     TextField("Categoría", text: $vm.categoria)
                     
-                    // PRIORIDAD
-                    Stepper("Prioridad: \(vm.prioridad)", value: $vm.prioridad, in: 1...5)
+                    // MARK: Prioridad
                     
-                    // EMAIL
+                    Stepper("Prioridad: \(vm.prioridad)",
+                            value: $vm.prioridad,
+                            in: 1...5)
+                    
+                    // MARK: Email
+                    
                     VStack(alignment: .leading, spacing: 4) {
                         TextField("Email", text: $vm.email)
                             .keyboardType(.emailAddress)
@@ -70,7 +83,8 @@ struct FormMainView: View {
                         }
                     }
                     
-                    // BOTÓN
+                    // MARK: Botón Enviar
+                    
                     Button {
                         Task { await vm.enviar() }
                     } label: {
@@ -86,7 +100,8 @@ struct FormMainView: View {
                     .disabled(!vm.isValid || vm.isLoading)
                 }
                 
-                // MARK: - Mensaje éxito
+                // MARK: Mensaje éxito
+                
                 if let success = vm.successMessage {
                     Section {
                         Text(success)
@@ -94,7 +109,8 @@ struct FormMainView: View {
                     }
                 }
                 
-                // MARK: - Error + Reintento
+                // MARK: Error + Reintento
+                
                 if let error = vm.errorMessage {
                     Section {
                         Text(error)
@@ -106,7 +122,8 @@ struct FormMainView: View {
                     }
                 }
                 
-                // MARK: - Listado
+                // MARK: Listado de solicitudes
+                
                 Section(header: Text("Mis solicitudes")) {
                     ForEach(vm.solicitudes) { solicitud in
                         VStack(alignment: .leading, spacing: 4) {
@@ -128,8 +145,4 @@ struct FormMainView: View {
             }
         }
     }
-}
-
-#Preview {
-    FormMainView()
 }

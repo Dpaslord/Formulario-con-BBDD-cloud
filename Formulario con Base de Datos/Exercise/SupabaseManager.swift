@@ -1,6 +1,7 @@
 import Foundation
 import Supabase
 
+/// Errores específicos relacionados con operaciones en Supabase.
 enum SupabaseError: LocalizedError {
     case decodingError
     case unknown(Error)
@@ -15,12 +16,17 @@ enum SupabaseError: LocalizedError {
     }
 }
 
+/// Clase responsable de la comunicación con Supabase.
+/// Implementa patrón Singleton para reutilizar la instancia.
 final class SupabaseManager {
     
+    /// Instancia compartida
     static let shared = SupabaseManager()
     
+    /// Cliente oficial de Supabase
     let client: SupabaseClient
     
+    /// Inicializa el cliente utilizando variables de entorno.
     private init() {
         guard
             let urlString = ProcessInfo.processInfo.environment["SUPABASE_URL"],
@@ -36,6 +42,9 @@ final class SupabaseManager {
         )
     }
     
+    // MARK: - Insert
+    
+    /// Inserta una nueva solicitud en la tabla `solicitudes`.
     func insertSolicitud(_ solicitud: Solicitud) async throws {
         do {
             try await client
@@ -47,6 +56,9 @@ final class SupabaseManager {
         }
     }
     
+    // MARK: - Fetch
+    
+    /// Obtiene todas las solicitudes ordenadas por fecha descendente.
     func fetchSolicitudes() async throws -> [Solicitud] {
         do {
             let response: [Solicitud] = try await client
